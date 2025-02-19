@@ -1,5 +1,5 @@
 
 export class MensagemDto {
-    codigo: Number;
+    codigo?: Number;
     mensagem: string;    
 }

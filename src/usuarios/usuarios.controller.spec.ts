@@ -63,7 +63,7 @@ describe('UsuariosController', () => {
 
   it('deve deletar um usuario pelo id', async () => {
     const userId = 2;
-    const expectedResponse = { codigo: 200, mensagem: `Usuario ${userId} deletado` };
+    const expectedResponse = { mensagem: `Usuario ${userId} deletado` };
 
     jest.spyOn(service, 'deleteUsuario').mockResolvedValue(expectedResponse);
 
@@ -75,7 +75,7 @@ describe('UsuariosController', () => {
 
   it('deve informar uma mensagem quando nao encontrar o usuario pelo id ao tentar deletar', async () => {
     const userId = 1200;
-    const expectedResponse = { codigo: 404, mensagem: `Usuario ${userId} não encontrado!` };
+    const expectedResponse = { mensagem: `Usuario ${userId} não encontrado!` };
 
     jest.spyOn(service, 'deleteUsuario').mockResolvedValue(expectedResponse);
 
@@ -105,7 +105,7 @@ describe('UsuariosController', () => {
 
   it('deve informar uma mensagem quando nao encontrar o usuario pelo id ao tentar atualizar o perfil', async () => {
     const userId = 1200;
-    const expectedResponse = { codigo: 404, mensagem: `Usuario ${userId} não encontrado!` }
+    const expectedResponse = { mensagem: `Usuario ${userId} não encontrado!` }
 
     jest.spyOn(service, 'updatePerfilUsuario').mockResolvedValue(expectedResponse);
 

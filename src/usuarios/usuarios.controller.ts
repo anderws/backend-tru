@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Delete, ParseEnumPipe, BadRequestException, NotFoundException, HttpStatus } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
-import { Funcao, Funcao as FuncaoModel, Usuario as UsuarioModel} from '@prisma/client';
+import { Funcao as FuncaoModel, Usuario as UsuarioModel} from '@prisma/client';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdatePerfilUsuarioDto } from './dto/update-perfil-usuario.dto';
 import { MensagemDto } from './dto/message.dto';
@@ -18,15 +18,11 @@ export class UsuariosController {
     @Get('/:id')
     async getOneUsuario(
         @Param('id') id: string
-    ): Promise<UsuarioModel | null>{
+    ): Promise<UsuarioModel | MensagemDto>{
         
         const usuario = await this.usuariosService.getOneUsuario({
             where: { id: Number(id)},
         });
-
-        if(!usuario){
-            throw new NotFoundException(UsuariosService, 'Usuario não encontrado!');
-        }            
 
         return usuario;
     }
@@ -64,9 +60,9 @@ export class UsuariosController {
 
     @Get('/by-perfil/:perfil')
     async getUsuariosByPerfil(
-        @Param('perfil', new ParseEnumPipe(Funcao, {
+        @Param('perfil', new ParseEnumPipe(FuncaoModel, {
             exceptionFactory: (valor) => new BadRequestException(`Use "ADMIN" or "CLIENTE".`)
-        })) funcaoRequest: Funcao 
+        })) funcaoRequest: FuncaoModel 
     ): Promise<UsuarioModel[]>{
 
         return this.usuariosService.getUsuarioByPerfil({

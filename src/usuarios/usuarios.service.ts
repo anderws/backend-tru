@@ -25,11 +25,16 @@ export class UsuariosService {
 
     async getOneUsuario(params: {
         where: Prisma.UsuarioWhereUniqueInput
-    } ): Promise<Usuario | null> {
+    } ): Promise<Usuario | MensagemDto> {
         const { where } = params;
         const usuario =  await this.prisma.usuario.findFirst({
             where,
         });
+        
+        if(!usuario){
+            return  { mensagem: `Usuario ${(where).id} não encontrado!` };
+        }
+        
         return usuario;
     }
 
@@ -45,7 +50,7 @@ export class UsuariosService {
         });
 
         if(!usuario){
-            return  { codigo: 404, mensagem: `Usuario ${(where).id} não encontrado!` };
+            return  { mensagem: `Usuario ${(where).id} não encontrado!` };
         }
 
         return this.prisma.usuario.update({
@@ -73,13 +78,13 @@ export class UsuariosService {
         });
         console.log(existUsuario);
         if(!existUsuario){
-            return  { codigo: 404, mensagem: `Usuario ${(where).id} não encontrado!` };
+            return  { mensagem: `Usuario ${(where).id} não encontrado!` };
         }
 
         const usuario = this.prisma.usuario.delete({
             where,
         });
-        return  { codigo: 200, mensagem: `Usuario ${(await usuario).id} deletado` };
+        return  { mensagem: `Usuario ${(await usuario).id} deletado` };
 
     }
 }
